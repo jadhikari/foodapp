@@ -1,10 +1,12 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 #models loaader
 from .models import Item
 from .forms import ItemForm
 
 # Create your views here.
+@login_required
 def index(request):
     item_list = Item.objects.all()
     
@@ -16,17 +18,14 @@ def index(request):
     return render(request, 'food/index.html', context)
 
 
-def item(request):
-    return HttpResponse('this is the items list ')
-
-
+@login_required
 def detail(request,item_id):
     item = Item.objects.get(pk=item_id)
     context={
             'item': item ,
     }
     return render(request, 'food/detail.html', context)
-
+@login_required
 def create_item(request):
     if request.method == 'POST':
         form = ItemForm(request.POST)
@@ -39,7 +38,7 @@ def create_item(request):
 
     context = {'form': form}
     return render(request, 'food/item-form.html', context)
-
+@login_required
 def edit_item(request, item_id):
     item = get_object_or_404(Item, pk=item_id)
 
@@ -53,7 +52,7 @@ def edit_item(request, item_id):
 
     context = {'form': form, 'item': item}
     return render(request, 'food/item-form.html', context)
-
+@login_required
 def delete_item(request, item_id):
     if request.method == 'POST':
         item = get_object_or_404(Item, pk=item_id)

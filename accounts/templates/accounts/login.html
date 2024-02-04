@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
+
 {% block body %}
 <form action="" method="POST">
     {% csrf_token %}
-    <h2>
-        Are you going to delete {{item.item_name}}
-    </h2>
-    <button type="submit"> Confirm </button>
+    {{form.as_p}}
+    <button type="submit" >Login</button>
 </form>
 {% endblock %}
